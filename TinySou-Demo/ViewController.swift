@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import TinySouSwift
 
 class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
@@ -83,14 +84,14 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         //设置cell
         //let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
-        cell.textLabel!.text = textData[indexPath.row]
+        cell.textLabel.text = textData[indexPath.row]
         cell.detailTextLabel!.text = detailTextData[indexPath.row]
         return cell
     }
     
     //设置tableView点击事件--跳转url
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        UIApplication.sharedApplication().openURL(NSURL(string : self.urlData[indexPath.row]))
+        UIApplication.sharedApplication().openURL(NSURL(string : self.urlData[indexPath.row])!)
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -200,19 +201,19 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         if(self.searchPage == 0){
             self.textData.removeAll(keepCapacity: true)
             self.detailTextData.removeAll(keepCapacity: true)
-            var total = json["info"]["total"].integerValue!
-            var per_page = json["info"]["per_page"].integerValue!
+            var total = Int(json["info"]["total"].number!)
+            var per_page = Int(json["info"]["per_page"].number!)
             if total%per_page == 0 {
                 self.MaxPage = total/per_page-1
             }else{
                 self.MaxPage = total/per_page
             }
         }
-        for var i=0; i < json["records"].arrayValue?.count; i++ {
-            var title = String(searchPage*10+i+1) + " " + json["records"][i]["document"]["title"].stringValue!
+        for var i=0; i < json["records"].count; i++ {
+            var title = String(searchPage*10+i+1) + " " + json["records"][i]["document"]["title"].string!
             self.textData.insert(title, atIndex: i+searchPage*10)
-            self.detailTextData.insert(json["records"][i]["document"]["sections"][0].stringValue!, atIndex: i+searchPage*10)
-            self.urlData.insert(json["records"][i]["document"]["url"].stringValue!, atIndex: i+searchPage*10)
+            self.detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+searchPage*10)
+            self.urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+searchPage*10)
         }
         self.searchResultCell.reloadData()
     }

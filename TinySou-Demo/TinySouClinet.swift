@@ -78,7 +78,7 @@ public class TinySouClient{
     public func buildRequest(search_content: String) -> NSURLRequest {
         var url = NSURL(string: search_url)
         //新建request
-        var request = NSMutableURLRequest(URL: url)
+        var request = NSMutableURLRequest(URL: url!)
         //设置请求方法
         request.HTTPMethod = self.method
         //定义json数据
@@ -97,7 +97,7 @@ public class TinySouClient{
     public func buildAcRequest(search_content: String) -> NSURLRequest {
         var url = NSURL(string: ac_url)
         //新建request
-        var request = NSMutableURLRequest(URL: url)
+        var request = NSMutableURLRequest(URL: url!)
         //设置请求方法
         request.HTTPMethod = self.method
         //定义报错
@@ -106,9 +106,9 @@ public class TinySouClient{
         var json: JSON?
         //设置header
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        var fetch_field = ["title", "sections", "url", "updated_at"]
+        var fetch_field: Array = ["title", "sections", "url", "updated_at"]
         //设置body
-        var params = ["q": search_content, "c": "page",  "engine_key":self.engine_key, "per_page": String(self.per_page), "fetch_fields": fetch_field] as Dictionary
+        var params = ["q": search_content, "c": "page",  "engine_key": self.engine_key, "per_page": String(self.per_page), "fetch_fields": fetch_field] as Dictionary<String, AnyObject>
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
         return request
     }
@@ -119,7 +119,7 @@ public class TinySouClient{
         var err: NSError?
         var jsonObj = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
         var json: JSON!
-        json = JSON(object: jsonObj!)
+        json = JSON(jsonObj!)
         if( json == nil) {
             self.is_error = true
             self.error_message = "json数据解析失败"
