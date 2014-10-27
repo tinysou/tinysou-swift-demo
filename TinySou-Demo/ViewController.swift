@@ -36,7 +36,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "下拉刷新")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        //self.searchResultCell.addSubview(refreshControl)
+        self.searchResultCell.addSubview(refreshControl)
     }
     
     //下拉刷新
@@ -178,7 +178,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
                 return
             }
             var json = tinySouClient.handleResult(data) //处理json数据
-            println(json)
+            //println(json)
             dispatch_async(
                 //回调或者说是通知主线程刷新
                 dispatch_get_main_queue(), {
