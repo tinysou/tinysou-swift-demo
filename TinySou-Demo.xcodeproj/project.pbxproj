@@ -14,7 +14,7 @@
 		35B72BB719FDDC580081E5E1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35B72BB519FDDC580081E5E1 /* LaunchScreen.xib */; };
 		35B72BC319FDDC580081E5E1 /* TinySou_DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B72BC219FDDC580081E5E1 /* TinySou_DemoTests.swift */; };
 		35B72BCE19FDDEF10081E5E1 /* TinySouClinet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B72BCD19FDDEF10081E5E1 /* TinySouClinet.swift */; };
-		35B72BD019FDDF210081E5E1 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B72BCF19FDDF210081E5E1 /* SwiftyJSON.framework */; };
+		35B72BD419FDE4560081E5E1 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B72BD319FDE4560081E5E1 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,7 @@
 		35B72BC119FDDC580081E5E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35B72BC219FDDC580081E5E1 /* TinySou_DemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinySou_DemoTests.swift; sourceTree = "<group>"; };
 		35B72BCD19FDDEF10081E5E1 /* TinySouClinet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TinySouClinet.swift; sourceTree = "<group>"; };
-		35B72BCF19FDDF210081E5E1 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		35B72BD319FDE4560081E5E1 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../SwiftyJSON/SwiftyJSON/SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35B72BD019FDDF210081E5E1 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +63,6 @@
 		35B72B9E19FDDC580081E5E1 = {
 			isa = PBXGroup;
 			children = (
-				35B72BCF19FDDF210081E5E1 /* SwiftyJSON.framework */,
 				35B72BA919FDDC580081E5E1 /* TinySou-Demo */,
 				35B72BBF19FDDC580081E5E1 /* TinySou-DemoTests */,
 				35B72BA819FDDC580081E5E1 /* Products */,
@@ -122,6 +120,7 @@
 		35B72BCC19FDDECD0081E5E1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				35B72BD319FDE4560081E5E1 /* SwiftyJSON.swift */,
 				35B72BCD19FDDEF10081E5E1 /* TinySouClinet.swift */,
 			);
 			name = Helpers;
@@ -230,6 +229,7 @@
 				35B72BAF19FDDC580081E5E1 /* ViewController.swift in Sources */,
 				35B72BCE19FDDEF10081E5E1 /* TinySouClinet.swift in Sources */,
 				35B72BAD19FDDC580081E5E1 /* AppDelegate.swift in Sources */,
+				35B72BD419FDE4560081E5E1 /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +355,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/freestorm/Workspace/ios/SwiftyJSON/build/Debug-iphoneos",
+					/Users/freestorm/Workspace/ios/SwiftyJSON/build/Debug,
 				);
 				INFOPLIST_FILE = "TinySou-Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -369,6 +370,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/freestorm/Workspace/ios/SwiftyJSON/build/Debug-iphoneos",
+					/Users/freestorm/Workspace/ios/SwiftyJSON/build/Debug,
 				);
 				INFOPLIST_FILE = "TinySou-Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
