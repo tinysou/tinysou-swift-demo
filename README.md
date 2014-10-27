@@ -16,3 +16,4 @@ Demo for ios Android Library
 
 ### 二、使用TinySouSwift library
 使用方法见library介绍
+![Image text](https://github.com/wangyeming/tinysou-ios-demo/blob/master/Pic/Demo-pic1.png)
