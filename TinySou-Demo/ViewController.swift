@@ -37,7 +37,8 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "下拉刷新")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
+        //self.tableView.addSubview(refreshControl)
+        self.searchDisplayController!.searchResultsTableView.addSubview(refreshControl)
         //self.searchResultCell.addSubview(refreshControl)
     }
     
@@ -45,7 +46,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     func refresh(sender:UIRefreshControl){
         // Code to refresh table view
         println("refrash")
-        search(searchBar.text, page: 0)
+        search(self.searchContent, page: 0)
         self.searchPage = 0
         self.refreshControl.endRefreshing()
     }
