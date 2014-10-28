@@ -10,14 +10,14 @@ import UIKit
 import SwiftyJSON
 import TinySouSwift
 
-class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
 
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchResultCell: UITableView!
     var refreshControl: UIRefreshControl!
     
-    let kCellIdentifier: String = "searchResultCell"
+    let CellIdentifier: String = "searchResultCell"
     let engine_key = "0b732cc0ea3c11874190"
     var textData: [String] = []
     var detailTextData: [String] = []
@@ -31,13 +31,14 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.searchBar.showsScopeBar = true
-        self.searchBar.delegate = self
+        //self.searchBar.showsScopeBar = true
+        //self.searchBar.delegate = self
         //设置refrashControl
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "下拉刷新")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.searchResultCell.addSubview(refreshControl)
+        self.tableView.addSubview(refreshControl)
+        //self.searchResultCell.addSubview(refreshControl)
     }
     
     //下拉刷新
@@ -61,7 +62,14 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        println("start")
+        println("start input")
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        println("end input")
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
     }
     
     //监听UIsearchBar输入改变--自动补全
@@ -76,6 +84,11 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     */
     //设置tableView显示行数
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            println("1  \(countElements(textData))")
+            return countElements(textData)
+        }
+        println("2  \(countElements(textData))")
         return countElements(textData)
     }
     
@@ -83,17 +96,20 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //设置cell
         //let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+        println(indexPath.row)
+        let cell: UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as UITableViewCell
         cell.textLabel.text = textData[indexPath.row]
         cell.detailTextLabel!.text = detailTextData[indexPath.row]
         return cell
     }
     
     //设置tableView点击事件--跳转url
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) -> UITableView{
         UIApplication.sharedApplication().openURL(NSURL(string : self.urlData[indexPath.row])!)
+        return tableView
     }
-    
+  
+    //上拉加载更多
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         var offset = scrollView.contentOffset.y
         var maxOffset = scrollView.frame.size.height - scrollView.contentSize.height
@@ -179,7 +195,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
                 return
             }
             var json = tinySouClient.handleResult(data) //处理json数据
-            //println(json)
+            println("获取了json数据，准备刷新UI。。。")
             dispatch_async(
                 //回调或者说是通知主线程刷新
                 dispatch_get_main_queue(), {
@@ -193,11 +209,14 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     func refrashUI(){
         self.textData.removeAll(keepCapacity: true)
         self.detailTextData.removeAll(keepCapacity: true)
-        self.searchResultCell.reloadData()
+        //self.searchDisplayControl.searchResultsTableView.reloadData()
+        //self.searchResultCell.reloadData()
+        self.tableView.reloadData()
     }
     
     //刷新tableView--普通
     func refrashUI(json: JSON) {
+        println("searchPage \(self.searchPage)")
         if(self.searchPage == 0){
             self.textData.removeAll(keepCapacity: true)
             self.detailTextData.removeAll(keepCapacity: true)
@@ -215,7 +234,10 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
             self.detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+searchPage*10)
             self.urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+searchPage*10)
         }
-        self.searchResultCell.reloadData()
+        println("textData 数+\(self.textData.count)")
+        //self.tableView.reloadData()
+        //self.searchResultCell.reloadData()
+        self.searchDisplayController!.searchResultsTableView.reloadData()
     }
     
     //弹窗报错--不含报错信息
