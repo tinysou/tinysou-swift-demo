@@ -24,7 +24,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
-                                        <outlet property="delegate" destination="vXZ-lx-hvc" id="Sbd-d3-uuc"/>
+                                        <outlet property="delegate" destination="vXZ-lx-hvc" id="OFJ-Gi-fS4"/>
                                     </connections>
                                 </searchBar>
                                 <prototypes>
@@ -52,7 +52,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="kCa-JJ-DUD"/>
-                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="wNm-4H-Z78"/>
+                                    <outlet property="delegate" destination="JjB-0n-xCy" id="W2o-e1-tm9"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -60,6 +60,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="searchBar" destination="pd8-JT-z4s" id="usP-pw-g5Z"/>
                         <outlet property="searchDisplayController" destination="JjB-0n-xCy" id="e2q-c7-OyC"/>
                         <outlet property="searchResultCell" destination="1gD-e8-nlr" id="QjW-YT-gc8"/>
                         <outlet property="tableView" destination="1gD-e8-nlr" id="eFC-qN-t2n"/>

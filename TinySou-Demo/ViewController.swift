@@ -97,7 +97,6 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //设置cell
         //let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
-        println(indexPath.row)
         let cell: UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as UITableViewCell
         cell.textLabel.text = textData[indexPath.row]
         cell.detailTextLabel!.text = detailTextData[indexPath.row]
@@ -109,12 +108,16 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         UIApplication.sharedApplication().openURL(NSURL(string : self.urlData[indexPath.row])!)
         return tableView
     }
-  
+    
     //上拉加载更多
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        var offset = scrollView.contentOffset.y
-        var maxOffset = scrollView.frame.size.height - scrollView.contentSize.height
-        if (maxOffset - offset) <= 40 {
+        //var offset = scrollView.contentOffset.y
+        var offset = self.searchDisplayController!.searchResultsTableView.contentOffset.y
+        println("offset \(offset)")
+        //var maxOffset = scrollView.frame.size.height - scrollView.contentSize.height
+        var maxOffset = self.searchDisplayController!.searchResultsTableView.frame.size.height - self.searchDisplayController!.searchResultsTableView.contentSize.height
+        println("maxOffset \(maxOffset)")
+        if (maxOffset - offset) <= 200 {
             if(self.isLoad){
                 println("加载中")
             }else{
@@ -217,7 +220,6 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     
     //刷新tableView--普通
     func refrashUI(json: JSON) {
-        println("searchPage \(self.searchPage)")
         if(self.searchPage == 0){
             self.textData.removeAll(keepCapacity: true)
             self.detailTextData.removeAll(keepCapacity: true)
@@ -235,7 +237,6 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
             self.detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+searchPage*10)
             self.urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+searchPage*10)
         }
-        println("textData 数+\(self.textData.count)")
         //self.tableView.reloadData()
         //self.searchResultCell.reloadData()
         self.searchDisplayController!.searchResultsTableView.reloadData()
