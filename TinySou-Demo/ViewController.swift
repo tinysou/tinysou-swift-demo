@@ -147,6 +147,12 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     }
     //开始搜索
     tinySouClient.setPage(page)
+    /*
+    //设置参数
+    var search_params = ["q": search_content, "c": "page", "page": page, "engine_key": EngineKey, "per_page": 10] as [String: AnyObject]
+    tinySouClient.setSearchParams(search_params)
+    */
+    //建立请求
     var request = tinySouClient.buildRequest(search_content)
     var session = NSURLSession.sharedSession()
     var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
@@ -182,7 +188,14 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
       refrashUI()
       return
     }
+    /*
     //开始自动补全
+    //设置参数
+    var fetch_field: Array = ["title", "sections", "url", "updated_at"]
+    var ac_params = ["q": search_content, "c": "page", "engine_key": EngineKey, "per_page": 10, "fetch_fields": fetch_field] as [String: AnyObject]
+    tinySouClient.setSearchParams(ac_params)
+    */
+    //建立请求
     var request = tinySouClient.buildAcRequest(search_content)
     var session = NSURLSession.sharedSession()
     var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
@@ -238,14 +251,6 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
       detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+searchPage*10)
       urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+searchPage*10)
     }
-    /*
-    for var i=0; i < json["records"].count; i++ {
-      var title = String(searchPage*10+i+1) + " " + json["records"][i]["document"]["title"].string!
-      textData.insert(title, atIndex: i+searchPage*10)
-      detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+searchPage*10)
-      urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+searchPage*10)
-    }
-    */
     searchDisplayController!.searchResultsTableView.reloadData()
   }
   

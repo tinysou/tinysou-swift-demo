@@ -2,7 +2,7 @@
 //  TinySou_DemoTests.swift
 //  TinySou-DemoTests
 //
-//  Created by Free Storm on 14-10-27.
+//  Created by Yeming Wang on 14-10-27.
 //  Copyright (c) 2014年 tinysou. All rights reserved.
 //
 
