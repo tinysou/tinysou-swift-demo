@@ -2,8 +2,9 @@
 //  AppDelegate.swift
 //  TinySou-Demo
 //
-//  Created by Free Storm on 14-10-27.
+//  Created by Yeming Wang on 14-10-27.
 //  Copyright (c) 2014年 tinysou. All rights reserved.
+//  Code-style: The Official raywenderlich.com Swift Style Guide.
 //
 
 import UIKit
@@ -16,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        println("Hello World!");
         return true
     }
 
