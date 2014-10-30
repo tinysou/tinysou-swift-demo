@@ -134,6 +134,17 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     }
   }
   
+  //响应数据处理
+  func handleResult(data: NSData) ->JSON {
+    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+    var err: NSError?
+    var jsonObj = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+    var json: JSON!
+    json = JSON(jsonObj!)
+    return json
+  }
+
+  
   //搜索
   func search(search_content: String,page: Int){
     if searchPage != 0 {
@@ -170,7 +181,11 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         }
         return
       }
-      var json = tinySouClient.handleResult(data) //处理json数据
+      var json = self.handleResult(data) //处理json数据
+      if json == nil {
+        self.alertError("json数据解析失败")
+        return
+      }
       dispatch_async(
         //回调或者说是通知主线程刷新
         dispatch_get_main_queue(), {
@@ -213,7 +228,11 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         }
         return
       }
-      var json = tinySouClient.handleResult(data) //处理json数据
+      var json = self.handleResult(data) //处理json数据
+      if json == nil {
+        self.alertError("json数据解析失败")
+        return
+      }
       println("获取了json数据，准备刷新UI。。。")
       dispatch_async(
         //回调或者说是通知主线程刷新
