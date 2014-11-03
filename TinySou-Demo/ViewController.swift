@@ -158,11 +158,9 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     }
     //开始搜索
     tinySouClient.setPage(page)
-    /*
     //设置参数
-    var search_params = ["q": search_content, "c": "page", "page": page, "engine_key": EngineKey, "per_page": 10] as [String: AnyObject]
+    var search_params = ["q": search_content, "c": "page", "page": 0, "engine_key": EngineKey, "per_page": 10] as [String: AnyObject]
     tinySouClient.setSearchParams(search_params)
-    */
     //建立请求
     var request = tinySouClient.buildRequest(search_content)
     var session = NSURLSession.sharedSession()
@@ -171,6 +169,8 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         self.alertError("网络无连接")
         return
       }
+      let newStr = NSString(data: data, encoding: NSUTF8StringEncoding)
+      println(newStr);
       let httpResp: NSHTTPURLResponse = response as NSHTTPURLResponse
       //响应状态码不为200时
       if(httpResp.statusCode != 200){
