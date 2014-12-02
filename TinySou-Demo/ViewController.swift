@@ -17,13 +17,13 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
   @IBOutlet var searchResultCell: UITableView!
   var refreshControl: UIRefreshControl!
   let CellIdentifier: String = "searchResultCell"
-  let EngineKey = "0b732cc0ea3c11874190"
+  let EngineKey = "f595a660caf2074851a4"
   var textData: [String] = []
   var detailTextData: [String] = []
   var result: JSON!
   var urlData: [String] = []
   var searchContent: String = "" //搜索内容
-  var searchPage: Int = 0 //当前搜索页数
+  var searchPage: Int = 1 //当前搜索页数
   var maxPage: Int!
   var isLoad: Bool = false
   
@@ -46,8 +46,8 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
   func refresh(sender:UIRefreshControl){
     // Code to refresh table view
     println("refrash")
-    search(searchContent, page: 0)
-    searchPage = 0
+    search(searchContent, page: 1)
+    searchPage = 1
     refreshControl.endRefreshing()
   }
   
@@ -58,8 +58,8 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
   
   //searchBar确认输入事件--搜索
   @IBAction func searchBarSearchButtonClicked(searchBar: UISearchBar!){
-    search(searchBar.text, page: 0)
-    searchPage = 0
+    search(searchBar.text, page: 1)
+    searchPage = 1
   }
   
   @IBAction func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -83,7 +83,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
   func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
     autoComplete(searchText)
     searchContent = searchText
-    searchPage = 0
+    searchPage = 1
   }
   
   /*
@@ -147,7 +147,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
   
   //搜索
   func search(search_content: String,page: Int){
-    if searchPage != 0 {
+    if searchPage != 1 {
       isLoad = true
     }
     self.searchContent = search_content
@@ -159,7 +159,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     //开始搜索
     tinySouClient.setPage(page)
     //设置参数
-    var search_params = ["q": search_content, "c": "page", "page": 0, "engine_key": EngineKey, "per_page": 10] as [String: AnyObject]
+    var search_params = ["q": search_content, "c": "page", "page": 1, "engine_key": EngineKey, "per_page": 10] as [String: AnyObject]
     tinySouClient.setSearchParams(search_params)
     //建立请求
     var request = tinySouClient.buildRequest(search_content)
@@ -252,23 +252,19 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
   
   //刷新tableView--普通
   func refrashUI(json: JSON) {
-    if(searchPage == 0){
+    if(searchPage == 1){
       textData.removeAll(keepCapacity: true)
       detailTextData.removeAll(keepCapacity: true)
       var total = Int(json["info"]["total"].number!)
       var per_page = Int(json["info"]["per_page"].number!)
-      if total%per_page == 0 {
-        maxPage = total/per_page-1
-      }else{
-        maxPage = total/per_page
-      }
+      maxPage = Int(json["info"]["total_pages"].number!)
     }
     var i = 0
     for i in i..<json["records"].count {
-      var title = String(searchPage*10+i+1) + " " + json["records"][i]["document"]["title"].string!
-      textData.insert(title, atIndex: i+searchPage*10)
-      detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+searchPage*10)
-      urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+searchPage*10)
+      var title = String((searchPage-1)*10+i+1) + " " + json["records"][i]["document"]["title"].string!
+      textData.insert(title, atIndex: i+(searchPage-1)*10)
+      detailTextData.insert(json["records"][i]["document"]["sections"][0].string!, atIndex: i+(searchPage-1)*10)
+      urlData.insert(json["records"][i]["document"]["url"].string!, atIndex: i+(searchPage-1)*10)
     }
     searchDisplayController!.searchResultsTableView.reloadData()
   }
